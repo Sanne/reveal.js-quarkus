@@ -27,39 +27,32 @@
         <div class="reveal">
             <div id="belt"></div>
             <div id="footer">
-                <a href="https://quarkus.io/" class="left" target="_blank">quarkus.io</a> <a href="https://twitter.com/ppalaga">@ppalaga</a> <img src="css/theme/quarkus-assets/img/red-hat-white.svg" class="right">
+                <a href="https://quarkus.io/" class="left" target="_blank">quarkus.io</a> <img src="css/theme/quarkus-assets/img/red-hat-white.svg" class="right">
             </div>
             <div class="slides">
                 <section>
                     <section data-state="belt no-footer">
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
+                        <h2>Quarkus & GraalVM</h2>
+                        <p>booting Hibernate at supersonic speed,</p>
+						<p>subatomic size</p>
                         <p>&nbsp;</p>
-                        <h1>Quarkus</h1>
-                        <p>Supersonic Subatomic Java</p>
-                        <p>&nbsp;</p>
-                        <p>Peter Palaga</p>
-                        <p class="light-font"><a href="https://twitter.com/ppalaga">@ppalaga</a></p>
+                        <p><a href="https://twitter.com/SanneGrinovero">@SanneGrinovero</a></p>
                     </section>
                     <section id="about-me">
-                        <h2>Peter Palaga</h2>
+                        <h2>Sanne Grinovero</h2>
+<p class="fragment">Dutch, Italian, now in London...</p>
                         <ul>
-                            <li class="fragment">Senior engineer at Red Hat Middleware
+                            <li class="fragment">Red Hat : Middleware R&D
                                 <ul>
-                                    <li>Red Hat Fuse on EAP (WildFly Camel)</li>
-                                    <li>JBoss EAP (WildFly)</li>
+                                    <li>Hibernate team lead</li>
+                                    <li>Quarkus, engineering team</li>
                                 </ul>
                             </li>
-                            <li class="fragment">Author of
+                            <li class="fragment">Also contributing to:
                                 <ul>
-                                    <li><a
-                                        href="https://github.com/srcdeps/srcdeps">srcdeps</a>
-                                        - source dependencies for Maven and Gradle</li>
-                                    <li><a
-                                        href="https://github.com/ec4j/editorconfig-maven-plugin">Maven</a>
-                                        and <a
-                                        href="https://github.com/ec4j/editorconfig-gradle-plugin">Gradle</a>
-                                        plugins for <code>.editorconfig</code></li>
+                                    <li>GraalVM, OpenJDK, WildFly, Apache Lucene, Infinispan, Elasticsearch, JGroups, Byteman, Maven, Gradle, PostgreSQL, JakartaEE, Thorntail, ANTLR, Asciidoctor, ... </li>
                                 </ul>
                             </li>
                         </ul>
@@ -67,42 +60,197 @@
                     <section id="agenda">
                         <h2>Agenda</h2>
                         <ul>
-                            <li>7 ms demo</li>
-                            <li>What is Quarkus</li>
-                            <li>How it works</li>
-                            <li>More demos</li>
+                            <li>The 5ms demo first</li>
+							<li>GraalVM & native images</li>
+                            <li>Quarkus ?</li>
+                            <li>Better demo</li>
+                            <li>How ?</li>
                         </ul>
                     </section>
                 </section>
                 <section id="demo1">
                     <section data-state="belt">
-                        <h1>Demo</h1>
+                        <h1>Native Image?</h1>
                     </section>
                     <section>
-                        <h2>Demo</h2>
+                        <h2>Let's have some fun...</h2>
                         <br><br>
                         <pre style="width: 100%"><code class="hljs shell" data-noescape data-trim>$ export GRAALVM_HOME=...
-$ mvn clean package -Pnative
-$ ls -lh target/*-runner
--rw<mark class="fragment" data-fragment-index="1">x</mark>rw<mark class="fragment" data-fragment-index="1">x</mark>r-<mark class="fragment" data-fragment-index="1">x</mark>. 1 ppalaga ppalaga <mark class="fragment">19M</mark> Mar 20 14:39 target/quarkus-hello
-$ ./target/*-runner
-INFO  [io.quarkus] (main) Quarkus 0.11.0 started in <mark class="fragment">0.007s</mark>.
-INFO  [io.quarkus] (main) Installed features: [cdi, resteasy]
+$ export JAVA_HOME=$GRAALVM_HOME
+$ mvn package
+$ native-image -jar main.jar
+</code>
+... wait for it ...
+<code>$ ./main
 </code></pre>
-                        <br><br>
-                        <p><small><a href="https://quarkus.io/guides/building-native-image-guide">https://quarkus.io/guides/building-native-image-guide</a></small></p>
+                        <p>Let's do it?</p>
                     </section>
                 </section>
+                <section data-state="belt">
+					<h2>There's some potential!</h2>
+					<p>How about more complex apps?</p>
+                </section>
+
+
+                    <section>
+                        <img alt="GraalVM" src="images/graal-vm.svg">
+                    </section>
+                    <section>
+                        <img alt="" src="images/graal-vm-arch.svg">
+                    </section>
+                    <section>
+                        <h2 style="text-transform: none">GraalVM Native Image</h2>
+                        =
+                        <h2 style="text-transform: none">GraalVM compiler</h2>
+                        +
+                        <h2 style="text-transform: none">SubstrateVM</h2>
+                    </section>
+                    <section>
+                        <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
+                        <img alt="" src="images/graalvm-aot.svg">
+                    </section>
+                    <section>
+                        <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
+                        <ul>
+                            <li class="fragment">Static analysis</li>
+                            <li class="fragment">Closed world assumption</li>
+                            <li class="fragment">Dead code elimination:<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;classes, fields, methods, branches</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
+                        <pre><code class="hljs shell" style="overflow: hidden;">$ native-image -jar my-app.jar
+$ ./my-app</code></pre>
+                        <table class="plaintable">
+                            <tr class="fragment">
+                                <td><a>🚀</a>&nbsp;&nbsp;Fast process start</td>
+                            </tr>
+                            <tr class="fragment">
+                                <td><a>🔬</a>&nbsp;&nbsp;Less memory</td>
+                            </tr>
+                            <tr class="fragment">
+                                <td><a>💾</a>&nbsp;&nbsp;Small size on disk</td>
+                            </tr>
+                        </table>
+                    </section>
+                </section>
+                <section id="graalvm-limitations">
+                    <section>
+                        <img alt="GraalVM" src="images/graal-vm.svg">
+                        <h1>Limitations</h1>
+						<h2>of GraalVM Native Images</h2>
+                    </section>
+                    <section>
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img class="fragment" alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
+                        <h2>Dynaminc Classloading</h2>
+                        <p class="fragment"><br><br>Deloying jars, wars, etc. at runtime impossible</p>
+                    </section>
+                    <section id="native-interfaces-1">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img class="fragment" alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
+                        <h2>JVMTI, JMX</h2>
+                        + other native VM interfaces
+                        <p class="fragment"><br><br>No agents</p>
+                        <p class="fragment">JRebel, Byteman, profilers, tracers, ...</p>
+                    </section>
+                    <section id="native-interfaces-2">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
+                        <h2>JVMTI, JMX</h2>
+                        + other native VM interfaces<br><br>
+                        <ul>
+                            <li class="fragment">No Java debugger
+                            <li class="fragment">Native debugger (GDB) still works</li>
+                            <li class="fragment">DWARF debug symbols
+                                <ul>
+                                    <li class="fragment">Inserted only by GraalVM enterprise</li>
+                                    <li class="fragment">Allows stepping through your java code</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="finalize-invoke-dynamic">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
+                        <h2>Miscellaneous</h2>
+                        <br><br>
+                        <p class="fragment">Security Manager</p>
+                        <p class="fragment"><code>finalize()</code> (deprecated anyway)</p>
+                        <p class="fragment"><code>InvokeDynamic</code> and <code>MethodHandles</code></p>
+                    </section>
+                    <section id="reflection">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img alt="GraalVM" src="images/limited.svg" style="height: 4em; float: left; position: absolute; margin-top: -30px">
+                        <h2>Reflection</h2>
+                        <br><br>
+                        <p>Requires registration via <code>native-image</code> CLI/API</p>
+                    </section>
+                    <section id="more-limited">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img alt="GraalVM" src="images/limited.svg" style="height: 4em; float: left; position: absolute; margin-top: -30px">
+                        <h2>More</h2>
+                        <br><br>
+                        <p>Require registration via <code>native-image</code> CLI/API</p>
+                        <ul>
+                            <li>Dynamic proxies</li>
+                            <li>Resources</li>
+                            <li>JNI, Unsafe Memory Access, ...</li>
+                        </ul>
+                    </section>
+                    <section id="static-init-1">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img class="fragment" alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px">
+                        <h2>Static init</h2>
+                        <p class="fragment">Build time OpenJDK instance:</p>
+                        <ul>
+                            <li class="fragment">Resolve classes, run all static initializers</li>
+                            <li class="fragment">Take a snapshot of the produced instances - prune the unreachable ones</li>
+                            <li class="fragment">Include them in the executable</li>
+                        </ul>
+                        <!-- * Initial classloading: serial and complex algo A.class refs B.class refs A.class....
+                          * Graph dependency resolution, static initializers run as a part of it
+                          * one of the biggest costs in starting traditional Java apps
+                          * If you look at WildFly start, this is where the most of the time is spent -->
+                    </section>
+                    <section id="static-init-2">
+                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
+                        <img alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px;">
+                        <h2>Static init</h2>
+                        <p>Great! but ??</p>
+                        <p>no file handles, sockets, threads</p>
+						<p>And all your dependencies need to get analyzed!<p>
+                    </section>
+					<section>
+						<h3>What's the impact on Hibernate ORM ?</h3>
+						<br><br><br><small class="fragment" data-fragment-index="1">Mindmap #3</small>
+					</section>
+					<section id="feature-disable-static">
+<h2>How do you disable a feature anyway?</h2>
+<pre class="fragment"><code class="hljs java">boolean jmxEnabled = parseConfiguration(...);
+
+if (jmxEnabled) {
+    registerJMX();
+}
+</code></pre>
+
+<pre class="fragment"><code class="hljs java">static final JMX_ENABLED = false;
+
+if (JMX_ENABLED) {
+    registerJMX();
+}
+</code></pre>
+
+					</section>
+                </section>
+
+
+<!--- BOOK 1 -->
+
                 <section id="what-is-quarkus">
                     <section data-state="belt">
                         <h2>What is Quarkus</h2>
-                    </section>
-                    <section id="the-name">
-                        <h2>Quarkus</h2>
-                        <p><a href="https://en.wikipedia.org/wiki/Quark">=</a></p>
-                        <p><a href="https://en.wikipedia.org/wiki/Quark">Quark</a> - an elementary particle</p>
-                        <p><a href="https://en.wikipedia.org/wiki/Quark">+</a></p>
-                        <p><a href="https://en.wikipedia.org/wiki/Quark">us</a> - the hardest problem in software</p>
                     </section>
                     <section id="toolkit-framework">
                         <h2>Toolkit</h2>
@@ -156,8 +304,7 @@ INFO  [io.quarkus] (main) Installed features: [cdi, resteasy]
                         </table>
                     </section>
                     <section id="libs-and-frameworks">
-                        <h2>Libs and frameworks</h2>
-                        you love and use today<br>
+                        <h3>Established, reliable libraries you already know</h3>
                         <table id="libs-frameworks" class="plaintable" style="font-size: 16px; text-transform: uppercase;">
                             <tr>
                                 <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
@@ -175,7 +322,7 @@ INFO  [io.quarkus] (main) Installed features: [cdi, resteasy]
                                 <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
                                     <a href="https://resteasy.github.io"
                                         target="_blank"> <img src="images/logoset_resteasy.png">
-                                        <span>Resteasy</span>
+                                        <span>RESTeasy</span>
                                     </a>
                                 </td>
                                 <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
@@ -297,8 +444,6 @@ public Publisher&lt;String> stream() {
                             </tr>
                         </table>
                     </section>
-                    <section id="show-me-the-numbers" data-background-image="images/perf-show.jpg"></section>
-                    <!-- <section id="how-did-you-measure" data-background-image="images/perf-how.jpg"></section> -->
                     <section id="measuring-mem">
                         <h2>Measuring memory</h2>
                         <br><br>
@@ -330,46 +475,13 @@ public Publisher&lt;String> stream() {
                             </tr>
                         </table>
                     </section>
-                    <section data-background-image="images/perf-boot-time.jpg"></section>
-                    <section data-background-image="images/perf-console.jpg"></section>
                     <section id="lazy-init">
                         <h2>Startup time</h2>
-                        <p >Modern frameworks use lazy initialization</p>
-                        <p class="fragment">"started" before all classes are initialzed</p>
-                        <p class="fragment">What matters:</p>
+                        <p >Often frameworks use lazy initialization</p>
+                        <p class="fragment">"started" before all classes are initialized</p>
                         <h3 class="fragment" >Time to first request</h3>
                     </section>
-                    <section id="time-to-first-request-1">
-                        <h2>Time to first request<small><sup style="color: #fff">1/2</sup></small></h2>
-<pre style="width: 100%; margin: 0px;"><code class="hljs java">@Path("/")
-public class GreetingEndpoint {
-    @GET @Path("/greeting")
-    public String greeting(@QueryParam("name") String name) {
-        System.out.println(System.currentTimeMillis());
-        return "Hello " + name;
-    }
-    void onStart(@Observes StartupEvent startup) {
-        System.out.println(System.currentTimeMillis());
-    }
-}</code></pre>
-                    </section>
-                    <section id="time-to-first-request-2">
-                        <h2>Time to first request<small><sup style="color: #fff">2/2</sup></small></h2>
-                        <pre style="width: 100%; overflow: hidden; margin-top: -20px"><code class="hljs shell" style="overflow: hidden;">$ while [[ \
-    "$(curl -s -o /dev/null -w '%{http_code}' localhost:8080/greeting)" \
-       != "200" \
-  ]]; do sleep .00001; done</code></pre>
-                        <pre class="fragment"  style="width: 100%; overflow: hidden;"><code class="hljs shell" style="overflow: hidden;">$ echo $(($(date +%s%N)/1000000)) && target/*-runner
-1552931436155
-1552931436626
-INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.035s.
-INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb]
-1552931436637
-</code></pre>
-                        <pre class="fragment" style="width: 100%; overflow: hidden;"><code class="hljs shell" style="overflow: hidden;">$ expr 1552931436637 - 1552931436155
-482      # Time to first request in milliseconds
-</code></pre>
-                    </section>
+                   
                     <section id="time-to-first-request-numbers">
                         <h2>&nbsp;Time&nbsp;to&nbsp;first&nbsp;request</h2>
                         <table id="first-request" class="plaintable" style="width: 1300px; margin-left: -130px">
@@ -390,11 +502,14 @@ INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb]
                             </tr>
                         </table>
                     </section>
-                    <!-- <section>
-                        <h2>Cloud Native</h2>
-                        Embraces <a href="https://12factor.net/">12 factor</a> architecture in environments like Kubernetes
-                    </section> -->
                 </section>
+
+				<!-- BOOK 4-->
+                <section data-state="belt">
+					<h2>Dev joy? Show me!</h2>
+					<p>Demo #2</p>
+                </section>
+
                 <section id="how-it-works">
                     <section data-state="belt">
                         <h1>How it works</h1>
@@ -402,13 +517,10 @@ INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb]
                     <section>
                         <img style="width: 100%; margin-bottom: 20px" alt="" src="images/jvm-graalvm-targets.svg">
                     </section>
-                    <section>
-                        <img style="width: 100%; margin-bottom: 20px" alt="" src="images/jvm-graalvm-targets-quarkus.svg">
-                    </section>
                     <section id="traditional-app-server">
                         <h2>Traditional app server</h2>
                         <ul>
-                            <li>Hundreds of classes run only during the boot</li>
+                            <li>Thousands of classes run only during the boot</li>
                             <li>Later unused</li>
                             <li>Still occupy memory</li>
                         </ul>
@@ -456,186 +568,31 @@ INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb]
                         <h2>Quarkus extensions</h2>
                         <ul>
                             <li>Required for frameworks that hit GraalVM limitations</li>
-                            <li>Code divided into build time and runtime</li>
+                            <li>Code strictly separates build time analysis and runtime: strong benefit for JVM too!</li>
                             <li>Same JVM in dev mode</li>
                             <li>New extensions welcome!</li>
                         </ul>
                     </section>
-                </section>
-                <section id="graalvm">
-                    <section>
-                        <img style="width: 100%; margin-bottom: 20px" alt="" src="images/jvm-graalvm-targets-quarkus.svg">
-                    </section>
-                    <section>
-                        <img style="width: 100%; margin-bottom: 20px" alt="" src="images/jvm-graalvm-targets-graalvm.svg">
-                    </section>
-                    <section>
-                        <img alt="GraalVM" src="images/graal-vm.svg">
-                        <p>Two distinct things:</p>
-                        <ol>
-                            <li class="fragment">Graal compiler (AoT or JIT)</li>
-                            <li class="fragment">GraalVM - the polyglot VM</li>
-                        </ol>
-                    </section>
-                    <section>
-                        <img alt="" src="images/graal-vm-arch.svg">
-                    </section>
-                    <section>
-                        <sup>In this presentation:</sup>
-                        <h2 style="text-transform: none">GraalVM</h2>
-                        =
-                        <h2 style="text-transform: none">Graal compiler</h2>
-                        +
-                        <h2 style="text-transform: none">SubstrateVM</h2>
-                    </section>
-                    <section>
-                        <h3 style="text-transform: none">AoT<sup>1</sup> compilation with GraalVM</h3>
-                        <p><small><sup>1)</sup> Ahead-of-time (1/3)</small></p>
-                        <img alt="" src="images/graalvm-aot.svg">
-                    </section>
-                    <section>
-                        <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
-                        <p><small>(2/3)</small> </p>
+<section>
+                        <h2>Extensions structure</h2>
+						<p>Strict separation of code:</p>
                         <ul>
-                            <li class="fragment">Static analysis</li>
-                            <li class="fragment">Closed world assumption</li>
-                            <li class="fragment">Dead code elimination:<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;classes, fields, methods, branches</li>
+                            <li>Deployment code</li>
+                            <li>Runtime code</li>
                         </ul>
-                    </section>
-                    <section>
-                        <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
-                        <p><small>(3/3)</small></p>
-                        <pre><code class="hljs shell" style="overflow: hidden;">$ native-image -jar my-app.jar
-$ ./my-app</code></pre>
-                        <table class="plaintable">
-                            <tr class="fragment">
-                                <td><a>🚀</a>&nbsp;&nbsp;Fast process start</td>
-                            </tr>
-                            <tr class="fragment">
-                                <td><a>🔬</a>&nbsp;&nbsp;Less memory</td>
-                            </tr>
-                            <tr class="fragment">
-                                <td><a>💾</a>&nbsp;&nbsp;Small size on disk</td>
-                            </tr>
-                        </table>
+						<p>Strict separation of phases:</p>
+                        <ul>
+                            <li>Compile</li>
+                            <li>Augment</li>
+							<li>Static initializers (native)</li>
+							<li>Runtime</li>
+                        </ul>
                     </section>
                 </section>
-                <section id="graalvm-limitations">
-                    <section>
-                        <img alt="GraalVM" src="images/graal-vm.svg">
-                        <h1>Limitations</h1>
-                    </section>
-                    <section>
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img class="fragment" alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
-                        <h2>Dynaminc Classloading</h2>
-                        <p class="fragment"><br><br>Deloying jars, wars, etc. at runtime impossible</p>
-                    </section>
-                    <section id="native-interfaces-1">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img class="fragment" alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
-                        <h2>JVMTI, JMX</h2>
-                        + other native VM interfaces
-                        <p class="fragment"><br><br>No agents</p>
-                        <p class="fragment">JRebel, Byteman, profilers, tracers, ...</p>
-                    </section>
-                    <section id="native-interfaces-2">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
-                        <h2>JVMTI, JMX</h2>
-                        + other native VM interfaces<br><br>
-                        <ul>
-                            <li class="fragment">No Java debugger
-                            <li class="fragment">Native debugger (GDB) still works</li>
-                            <li class="fragment">DWARF debug symbols
-                                <ul>
-                                    <li class="fragment">Inserted only by GraalVM enterprise</li>
-                                    <li class="fragment">Allows stepping through your java code</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </section>
-                    <section id="finalize-invoke-dynamic">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
-                        <h2>Miscellaneous</h2>
-                        <br><br>
-                        <p class="fragment">Security Manager</p>
-                        <p class="fragment"><code>finalize()</code> (deprecated anyway)</p>
-                        <p class="fragment"><code>InvokeDynamic</code> and <code>MethodHandles</code></p>
-                    </section>
-                    <section id="reflection">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/limited.svg" style="height: 4em; float: left; position: absolute; margin-top: -30px">
-                        <h2>Reflection</h2>
-                        <br><br>
-                        <p>Requires registration via <code>native-image</code> CLI/API</p>
-                        <p><code>@RegisterForReflection</code> in Qarkus</p>
-                    </section>
-                    <section id="more-limited">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/limited.svg" style="height: 4em; float: left; position: absolute; margin-top: -30px">
-                        <h2>More</h2>
-                        <br><br>
-                        <p>Require registration via <code>native-image</code> CLI/API</p>
-                        <ul>
-                            <li>Dynamic proxies</li>
-                            <li>Resources</li>
-                            <li>JNI, Unsafe Memory Access, ...</li>
-                        </ul>
-                    </section>
-                    <section id="static-init-1">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img class="fragment" alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px">
-                        <h2>Static init</h2>
-                        <p><small>1/2</small></p>
-                        <p class="fragment">Build time OpenJDK instance:</p>
-                        <ul>
-                            <li class="fragment">Resolve classes, run all static initilizers</li>
-                            <li class="fragment">Take a snapshot of the produced heap</li>
-                            <li class="fragment">Store it in the executable</li>
-                        </ul>
-                        <!-- * Initial classloading: serial and complex algo A.class refs B.class refs A.class....
-                          * Graph dependency resolution, static initializers run as a part of it
-                          * one of the biggest costs in starting traditional Java apps
-                          * If you look at WildFly start, this is where the most of the time is spent -->
-                    </section>
-                    <section id="static-init-2">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px;">
-                        <h2>Static init</h2>
-                        <p><small>2/2</small></p>
-                        <p>Downsides:</p>
-                        <p>no file handles, sockets, threads</p>
-                    </section>
-                    <!-- <section>
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/info.svg" style="height: 4em; float: left; position: absolute; margin-top: -30px">
-                        <h2 style="letter-spacing: 0px"><code>synchronized</code>, <code>wait()</code>, <code>notify()</code></h2>
-                        <p>Implemented using java.util.concurrent.lock</p>
-                        <p>instead of having lock field on every object</p>
-                    </section> -->
-                    <section data-background-image="images/graal-explicit.jpg">
-                        <aside class="notes">
-                            <p>Using Graal VM:</p>
-                            <ul>
-                                <li>generare a json file with 300 entries for all reflectable members</li>
-                                <li>pass 20 CLI args</li>
-                            </ul>
-                        </aside>
-                    </section>
-                    <section data-background-image="images/graal-quarkus.jpg"></section>
-                </section>
+                <section id="cheatsheets">
                 <section id="more-quarkus">
-                    <section data-state="belt">
-                        <h2>More Quarkus</h2>
-                        <p>Please!</p>
-                    </section>
-                    <section>
-                        <h2>Get started</h2>
-                        <br><br>
-                        <pre style="width: 100%"><code class="hljs shell">$ mvn io.quarkus:quarkus-maven-plugin:0.12.0:create \
+                        <h2>Quarkus cheatsheets</h2>
+<p><small><a href="https://quarkus.io/get-started/">https://quarkus.io/get-started/</a></small></p>                        <pre style="width: 100%"><code class="hljs shell">$ mvn io.quarkus:quarkus-maven-plugin:0.13.1:create \
     -DprojectGroupId=org.acme \
     -DprojectArtifactId=quarkus-hello \
     -DclassName="org.acme.quickstart.GreetingResource" \
@@ -645,66 +602,54 @@ $ java -jar target/*-runner.jar
 INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.729s.
 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy]
 </code></pre>
-                        <p><small><a href="https://quarkus.io/get-started/">https://quarkus.io/get-started/</a></small></p>
+                        
                     </section>
+
                     <section id="native">
                         <h2>Native</h2>
-                        <br><br>
-                        <pre style="width: 100%"><code class="hljs shell" data-noescape data-trim>$ export GRAALVM_HOME=...
-$ mvn clean package -Pnative
+<p><small><a href="https://quarkus.io/guides/building-native-image-guide">https://quarkus.io/guides/building-native-image-guide</a></small></p>
+                        <pre style="width: 100%"><code class="hljs shell" data-noescape data-trim>$ mvn package -Pnative
 $ ls -lh target/*-runner
--rwxrwxr-x. 1 ppalaga ppalaga <mark>19M</mark> Mar 20 14:39 target/quarkus-hello
+-rwxrwxr-x. 1 sanne sanne <mark>17M</mark> Mar 20 14:39 target/quarkus-hello
 $ ./target/*-runner
-INFO  [io.quarkus] (main) Quarkus 0.11.0 started in <mark>0.005s</mark>.
+INFO  [io.quarkus] (main) Quarkus 0.13.1 started in <mark>0.003s</mark>.
 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy]
 </code></pre>
-                        <br><br>
-                        <p><small><a href="https://quarkus.io/guides/building-native-image-guide">https://quarkus.io/guides/building-native-image-guide</a></small></p>
+                        
                     </section>
                     <section id="dev-mode">
                         <h2>dev mode</h2>
-                        <br><br>
+<p><small><a href="https://quarkus.io/guides/getting-started-guide">https://quarkus.io/guides/getting-started-guide</a></small></p>
                         <pre><code class="hljs shell">$ mvn compile quarkus:dev</code></pre>
-                        <br><br>
-                        <p><small><a href="https://quarkus.io/guides/getting-started-guide">https://quarkus.io/guides/getting-started-guide</a></small></p>
                     </section>
-                    <section>
+
+					<section>
                         <h2>Testing</h2>
-                        <br><br>
+                        <p><small><a href="https://quarkus.io/guides/getting-started-guide#testing">https://quarkus.io/guides/getting-started-guide#testing</a></small></p>
+
                         <p><code>@QuarkusTest</code> runner</p>
                         <p>JUnit 4 or 5</p>
                         <pre><code class="hljs shell">$ mvn clean test</code></pre>
-                        <br><br>
-                        <p><small><a href="https://quarkus.io/guides/getting-started-guide#testing">https://quarkus.io/guides/getting-started-guide#testing</a></small></p>
                     </section>
+
                     <section>
                         <h2>Testing native</h2>
-                        <br><br>
+                        <p><small><a href="https://quarkus.io/guides/building-native-image-guide.html#testing-the-native-executable">https://quarkus.io/guides/building-native-image-guide.html#testing-the-native-executable</a></small></p>
                         <p><code>@SubstrateTest</code> runner</p>
                         <pre><code class="hljs shell">$ mvn clean verify -Pnative</code></pre>
-                        <br><br>
-                        <p><small><a href="https://quarkus.io/guides/building-native-image-guide.html#testing-the-native-executable">https://quarkus.io/guides/building-native-image-guide.html#testing-the-native-executable</a></small></p>
                     </section>
-                    <section>
-                        <h2>Discover extensions</h2>
-                        <pre style="width: 100%"><code class="hljs shell">$ mvn quarkus:list-extensions
-...
-[INFO] Available extensions:
-...
-[INFO]   * Hibernate ORM (io.quarkus:quarkus-hibernate-orm)
-[INFO]   * Hibernate ORM with Panache (io.quarkus:quarkus-hibernate-orm-panache)
-[INFO]   * Hibernate Validator (io.quarkus:quarkus-hibernate-validator)
-...
-</code></pre>
-                        <p><small><a href="https://quarkus.io/guides/maven-tooling.html">https://quarkus.io/guides/maven-tooling.html</a></small></p>
-                    </section>
+
                     <section>
                         <h2>Add an extension</h2>
-                        <pre style="width: 100%"><code class="hljs shell">$ mvn quarkus:add-extension -Dextensions=hibernate-orm-panache</code></pre>
                         <p><small><a href="https://quarkus.io/guides/maven-tooling.html">https://quarkus.io/guides/maven-tooling.html</a></small></p>
+
+                        <pre style="width: 100%"><code class="hljs shell">$ mvn quarkus:add-extension -Dextensions=hibernate-orm-panache</code></pre>
                     </section>
+
                     <section>
                         <h2>Panache</h2>
+                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
+
                         <p>Makes simple Hibernate ORM easy</p>
                         <pre style="width: 100%"><code class="hljs java">@Entity
 public class Person extends PanacheEntity {
@@ -712,25 +657,24 @@ public class Person extends PanacheEntity {
     public LocalDate birth;
     public PersonStatus status;
 }</code></pre>
-                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
                     </section>
+
                     <section>
                         <h2>Panache persist</h2>
+                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
+
                         <pre style="width: 100%"><code class="hljs java">// Create a person
 Person person = new Person();
 person.name = "Stef";
-person.birth = LocalDate.of(1910, Month.FEBRUARY, 1);
-person.status = Status.Alive;
 
 // Persist and delete
 person.persist();
-if (person.isPersistent()){
-  person.delete();
-}</code></pre>
-                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
+person.delete();</code></pre>
                     </section>
+
                     <section>
                         <h2>Panache Queries</h2>
+<p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
                         <pre style="width: 100%"><code class="hljs java">List&lt;Person> allPersons = Person.listAll(); // All persons
 Person p = Person.findById(personId); // Specific person by ID
 // Living persons
@@ -743,21 +687,50 @@ int countAlive = Person.count("status", Status.Alive);
 // Delete
 Person.delete("status", Status.Alive);
 Person.deleteAll();</code></pre>
-                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
+                        
                     </section>
+
                     <section>
                         <h2>More Panache</h2>
-                        <br><br>
+                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
+
                         <ul class="check">
                             <li>Paging</li>
                             <li>Sorting</li>
                             <li>Simplified query language</li>
                             <li>Autogenerated DAO/Repositories</li>
                         </ul>
-                        <br><br>
-                        <p><small><a href="https://quarkus.io/guides/hibernate-orm-panache-guide">https://quarkus.io/guides/hibernate-orm-panache-guide</a></small></p>
                     </section>
+
+
+                    <section>
+                        <h2>Other extensions</h2>
+						<p>Discover them</p>
+                        <p><small><a href="https://quarkus.io/guides/maven-tooling.html">https://quarkus.io/guides/maven-tooling.html</a></small></p>
+
+                        <pre style="width: 100%"><code class="hljs shell">$ mvn quarkus:list-extensions
+...
+Available extensions:
+...
+* Hibernate ORM (io.quarkus:quarkus-hibernate-orm)
+* Hibernate ORM with Panache (io.quarkus:quarkus-hibernate-orm-panache)
+* Hibernate Validator (io.quarkus:quarkus-hibernate-validator)
+...
+</code></pre>
+                    </section>
+
+<section>
+                        <h2>Other extensions</h2>
+						<p>Contribute them!</p>
+                        <p><small><a href="https://github.com/quarkusio">https://github.com/quarkusio</a></small></p>
+                        <ul class="check">
+                            <li>ASL2</li>
+                            <li>Open community</li>
+                        </ul>
+                    </section>
+
                 </section>
+
                 <section id="wrapup">
                     <section>
                         <h2>Quarkus wrap up</h2>
@@ -765,14 +738,19 @@ Person.deleteAll();</code></pre>
                         <ul class="check">
                             <li class="fragment">Good old Java</li>
                             <li class="fragment">Good old standards and libs</li>
-                            <li class="fragment">Efficiency level of Go language</li>
+                            <li class="fragment">Can go small as Go, works great on JVM too</li>
                         </ul>
                         <p>&nbsp;</p>
                         <p class="fragment">Makes Java the <a>choice #1</a> for the cloud and serverless</p>
                     </section>
                     <section>
-                        <h2>Quarkus Links</h2>
-                        <br><br>
+                        <h2>Version 0.x.y ?</h2>
+						<p class="fragment">We publish OSS early: let's build it together!</p>
+						<p class="fragment">Based on familiar, stable libraries</p>
+                    </section>
+                    <section>
+                        <h2>Thank you all!</h2>
+<h3>Q&A</h3>
                         <ul class="check">
                             <li>Docs &amp; guides: <a href="https://quarkus.io/">https://quarkus.io/</a></li>
                             <li style="white-space: nowrap;">Quickstarts: <a href="https://github.com/quarkusio/quarkus-quickstarts">github/quarkusio/quarkus-quickstarts</a></li>
