@@ -75,7 +75,7 @@
                     <section>
                         <h2>Let's have some fun...</h2>
                         <br><br>
-                        <pre style="width: 100%"><code class="hljs shell" data-noescape data-trim>$ export GRAALVM_HOME=...
+                        <pre style="width: 100%"><code class="hljs shell" data-noescape data-trim>$ export GRAALVM_HOME=  //path to your GraalVM download, unpacked
 $ export JAVA_HOME=$GRAALVM_HOME
 $ mvn package
 $ native-image -jar main.jar
@@ -99,40 +99,17 @@ $ native-image -jar main.jar
                         <img alt="" src="images/graal-vm-arch.svg">
                     </section>
                     <section>
-                        <h2 style="text-transform: none">GraalVM Native Image</h2>
-                        =
-                        <h2 style="text-transform: none">GraalVM compiler</h2>
-                        +
-                        <h2 style="text-transform: none">SubstrateVM</h2>
-                    </section>
-                    <section>
                         <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
                         <img alt="" src="images/graalvm-aot.svg">
                     </section>
                     <section>
                         <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
                         <ul>
-                            <li class="fragment">Static analysis</li>
-                            <li class="fragment">Closed world assumption</li>
-                            <li class="fragment">Dead code elimination:<br>
+                            <li>Static analysis</li>
+                            <li>Closed world assumption</li>
+                            <li>Dead code elimination:<br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;classes, fields, methods, branches</li>
                         </ul>
-                    </section>
-                    <section>
-                        <h3 style="text-transform: none">AoT compilation with GraalVM</h3>
-                        <pre><code class="hljs shell" style="overflow: hidden;">$ native-image -jar my-app.jar
-$ ./my-app</code></pre>
-                        <table class="plaintable">
-                            <tr class="fragment">
-                                <td><a>🚀</a>&nbsp;&nbsp;Fast process start</td>
-                            </tr>
-                            <tr class="fragment">
-                                <td><a>🔬</a>&nbsp;&nbsp;Less memory</td>
-                            </tr>
-                            <tr class="fragment">
-                                <td><a>💾</a>&nbsp;&nbsp;Small size on disk</td>
-                            </tr>
-                        </table>
                     </section>
                 </section>
                 <section id="graalvm-limitations">
@@ -205,20 +182,15 @@ $ ./my-app</code></pre>
                         <h2>Static init</h2>
                         <p class="fragment">Build time OpenJDK instance:</p>
                         <ul>
-                            <li class="fragment">Resolve classes, run all static initializers</li>
+                            <li class="fragment">Resolve classes, run "safe" static initializers</li>
                             <li class="fragment">Take a snapshot of the produced instances - prune the unreachable ones</li>
                             <li class="fragment">Include them in the executable</li>
                         </ul>
-                        <!-- * Initial classloading: serial and complex algo A.class refs B.class refs A.class....
-                          * Graph dependency resolution, static initializers run as a part of it
-                          * one of the biggest costs in starting traditional Java apps
-                          * If you look at WildFly start, this is where the most of the time is spent -->
                     </section>
                     <section id="static-init-2">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
                         <img alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px;">
                         <h2>Static init</h2>
-                        <p>Great! but ??</p>
                         <p>no file handles, sockets, threads</p>
 						<p>And all your dependencies need to get analyzed!<p>
                     </section>
@@ -531,6 +503,7 @@ public Publisher&lt;String> stream() {
                         <h2>Build time boot</h2>
                         <p>As much work as possible done at build time</p>
                         <ul>
+                            <li>Application model validation</li>
                             <li>Configuration parsing</li>
                             <li>Annotation lookup and evaluation</li>
                             <li>...</li>
@@ -554,7 +527,7 @@ public Publisher&lt;String> stream() {
                         </table>
                     </section>
                     <section>
-                        <h2 style="text-transform: none">Build oriented container</h2>
+                        <h2 style="text-transform: none">Core + Extensions</h2>
                         <img src="images/quarkus-arch.png">
                         <aside class="notes">
                             <ul>
@@ -568,24 +541,8 @@ public Publisher&lt;String> stream() {
                         <h2>Quarkus extensions</h2>
                         <ul>
                             <li>Required for frameworks that hit GraalVM limitations</li>
-                            <li>Code strictly separates build time analysis and runtime: strong benefit for JVM too!</li>
-                            <li>Same JVM in dev mode</li>
-                            <li>New extensions welcome!</li>
-                        </ul>
-                    </section>
-<section>
-                        <h2>Extensions structure</h2>
-						<p>Strict separation of code:</p>
-                        <ul>
-                            <li>Deployment code</li>
-                            <li>Runtime code</li>
-                        </ul>
-						<p>Strict separation of phases:</p>
-                        <ul>
-                            <li>Compile</li>
-                            <li>Augment</li>
-							<li>Static initializers (native)</li>
-							<li>Runtime</li>
+							<li>Opportunity to highly optimise also for JVM</li>
+                            <li>Code strictly separates build time analysis and runtime: extemely lean output!</li>
                         </ul>
                     </section>
                 </section>
@@ -737,7 +694,7 @@ Available extensions:
                         <p>&nbsp;</p>
                         <ul class="check">
                             <li class="fragment">Good old Java</li>
-                            <li class="fragment">Good old standards and libs</li>
+                            <li class="fragment">Using libraries and standards you already know</li>
                             <li class="fragment">Can go small as Go, works great on JVM too</li>
                         </ul>
                         <p>&nbsp;</p>
@@ -745,7 +702,8 @@ Available extensions:
                     </section>
                     <section>
                         <h2>Version 0.x.y ?</h2>
-						<p class="fragment">We publish OSS early: let's build it together!</p>
+						<p>Early days!</p>
+<p>OSS shouldn't become open just after 1.0: joining a project early is more fun!</p>
 						<p class="fragment">Based on familiar, stable libraries</p>
                     </section>
                     <section>
