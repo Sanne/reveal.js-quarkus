@@ -116,33 +116,18 @@ $ ./main
                     </section>
                     <section>
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img class="fragment" alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
+                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
                         <h2>Dynaminc Classloading</h2>
                         <p class="fragment"><br><br>Deloying jars, wars, etc. at runtime impossible</p>
                     </section>
                     <section id="native-interfaces-1">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img class="fragment" alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
+                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
                         <h2>JVMTI, JMX</h2>
                         + other native VM interfaces
                         <p class="fragment"><br><br>No agents</p>
                         <p class="fragment">JRebel, Byteman, profilers, tracers, ...</p>
-                    </section>
-                    <section id="native-interfaces-2">
-                        <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
-                        <h2>JVMTI, JMX</h2>
-                        + other native VM interfaces<br><br>
-                        <ul>
-                            <li class="fragment">No Java debugger
-                            <li class="fragment">Native debugger (GDB) still works</li>
-                            <li class="fragment">DWARF debug symbols
-                                <ul>
-                                    <li class="fragment">Inserted only by GraalVM enterprise</li>
-                                    <li class="fragment">Allows stepping through your java code</li>
-                                </ul>
-                            </li>
-                        </ul>
+						<p class="fragment">No Java Debugger</p>
                     </section>
                     <section id="finalize-invoke-dynamic">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
@@ -163,18 +148,18 @@ $ ./main
                     <section id="more-limited">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
                         <img alt="GraalVM" src="images/limited.svg" style="height: 4em; float: left; position: absolute; margin-top: -30px">
-                        <h2>More</h2>
+                        <h2>More...</h2>
                         <br><br>
-                        <p>Require registration via <code>native-image</code> CLI/API</p>
+                        <p>Need to register in advance also:</p>
                         <ul>
                             <li>Dynamic proxies</li>
-                            <li>Resources</li>
+                            <li>Resources being loaded</li>
                             <li>JNI, Unsafe Memory Access, ...</li>
                         </ul>
                     </section>
                     <section id="static-init-1">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img class="fragment" alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px">
+                        <img class="fragment" alt="GraalVM" src="images/very-special.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px">
                         <h2>Static init</h2>
                         <p class="fragment">Build time OpenJDK instance:</p>
                         <ul>
@@ -231,48 +216,8 @@ if (JMX_ENABLED) {
                     <section id="graalvm-targets-1">
                         <img style="width: 100%; margin-bottom: 20px" alt="" src="images/jvm-graalvm-targets.svg">
                     </section>
-                    <section id="standards">
-                        Based on
-                        <h2>Existing standards</h2>
-                        <table class="plaintable" style="font-size: 34px; margin-top: 80px">
-                            <tr>
-                                <td class="fragment" data-fragment-index="1" rowspan="2" style="padding-right: 50px">
-                                    <ul class="check">
-                                        <li>Servlet</li>
-                                        <li>JAX-RS</li>
-                                        <li>JPA, JDBC</li>
-                                        <li>CDI</li>
-                                        <li>Bean&nbsp;Validation</li>
-                                        <li>Transactions</li>
-                                        <li>Logging</li>
-                                    </ul>
-                                </td>
-                                <td class="fragment" data-fragment-index="2" colspan="2">
-                                    <img alt="MicroProfile" src="images/microprofile-logo.png" style="width: 400px">
-                                </td>
-                            </tr>
-                            <tr class="fragment" data-fragment-index="2">
-                                <td style="padding-right: 20px">
-                                    <ul class="check">
-                                        <li>Fault&nbsp;Tolerance</li>
-                                        <li>Health</li>
-                                        <li>JWT</li><!--  JSON Web Tokens(JWT) for role based access control(RBAC) of microservice endpoints -->
-                                        <li>Metrics</li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul class="check">
-                                        <li>OpenAPI</li>
-                                        <li>OpenTracing</li>
-                                        <li>Reactive&nbsp;Messaging</li>
-                                        <li>Rest Client</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </section>
                     <section id="libs-and-frameworks">
-                        <h3>Established, reliable libraries you already know</h3>
+                        <h3>Libraries you already know</h3>
                         <table id="libs-frameworks" class="plaintable" style="font-size: 16px; text-transform: uppercase;">
                             <tr>
                                 <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
@@ -474,8 +419,8 @@ public Publisher&lt;String> stream() {
 
 				<!-- BOOK 4-->
                 <section data-state="belt">
-					<h2>Dev joy? Show me!</h2>
-					<p>Demo #2</p>
+					<h2>Developer's joy?</h2>
+					<p>Show me! Demo #2</p>
                 </section>
 
                 <section id="how-it-works">
