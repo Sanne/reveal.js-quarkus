@@ -85,7 +85,7 @@ $ ./main
                     </section>
                 </section>
                 <section data-state="belt">
-					<h2>There's some potential!</h2>
+					<h2>Interesting...</h2>
 					<p>How about more complex apps?</p>
                 </section>
 
@@ -133,12 +133,11 @@ $ ./main
                     </section>
                     <section id="finalize-invoke-dynamic">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/unsupported.svg" style="height: 4em; float: left; position: absolute; margin-top: 60px">
                         <h2>Miscellaneous</h2>
                         <br><br>
-                        <p class="fragment">Security Manager</p>
-                        <p class="fragment"><code>finalize()</code> (deprecated anyway)</p>
-                        <p class="fragment"><code>InvokeDynamic</code> and <code>MethodHandles</code></p>
+                        <p>No: Security Manager</p>
+                        <p>No: <code>finalize()</code> (deprecated anyway)</p>
+                        <p>Limited: <code>InvokeDynamic</code> and <code>MethodHandles</code></p>
                     </section>
                     <section id="reflection">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
@@ -172,16 +171,15 @@ $ ./main
                     </section>
                     <section id="static-init-2">
                         <img alt="GraalVM" src="images/graal-vm.svg" style="height: 1em">
-                        <img alt="GraalVM" src="images/love-hate.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px;">
+                        <img alt="GraalVM" src="images/very-special.svg" style="height: 4.5em; float: left; position: absolute; margin-top: -30px">
                         <h2>Static init</h2>
-                        <p>no file handles, sockets, threads</p>
-						<p>And all your dependencies need to get analyzed!<p>
+<ul>
+                            <li
+                        <p>not allowed: file handles, sockets, threads</p>
+</li><li>careful with other state: timestamps, system dependent constants, capturing environment variables, etc..</li>
+</ul>
                     </section>
-					<section>
-						<h3>What's the impact on Hibernate ORM ?</h3>
-						<br><br><br><small class="fragment" data-fragment-index="1">Mindmap #3</small>
-					</section>
-					<section id="feature-disable-static">
+<section id="feature-disable-static">
 <h2>How do you disable a feature anyway?</h2>
 <pre class="fragment"><code class="hljs java">boolean jmxEnabled = parseConfiguration(...);
 
@@ -198,6 +196,16 @@ if (JMX_ENABLED) {
 </code></pre>
 
 					</section>
+					<section>
+						<h2>ok let's adapt my code...</h2>
+<p class="fragment">All your dependencies need to get compiled too!<p>
+<p class="fragment"><em>ALL DEPENDENCIES</em><p>
+					</section>
+					<section>
+						<h2>Impact on Hibernate ORM ?</h2>
+						<br><br><br><small class="fragment" data-fragment-index="1">Mindmap #3</small>
+					</section>
+					
                 </section>
 
 
